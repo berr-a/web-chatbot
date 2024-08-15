@@ -1,42 +1,52 @@
 import React, { useState } from 'react';
 import '../chatbot.css'; // Stilleri buradan ekleyeceğiz
+import { fetchData } from './api'; // fetchData fonksiyonunu buradan içe aktarıyoruz
 
 function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-
-  const apiUrl = 'https://api.dictionaryapi.dev/api/v2/entries/en';
-
-  const fetchData = async (word) => {
-    const url = `${apiUrl}/${encodeURIComponent(word)}`;
-    console.log()
-    try {
-      const res = await fetch(url);
-      const result = await res.json();
-      return result;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw new Error("Üzgünüm, verileri alırken bir hata oluştu.");
-    }
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Kullanıcının mesajını ekleyin
     setMessages([...messages, { sender: 'user', text: input }]);
 
+    try {
+      // API'den yanıt alın
+      const result = await fetchData(input);
 
-
-    
-    // Basit bir yanıt simülasyonu
-    setTimeout(async () => {
-      var a=((await fetchData(input)));
-
-      console.log(a[0].meanings[0].definitions[0].definition);
-      setMessages([...messages, { sender: 'user', text: input }, { sender: 'bot', text: a[0].meanings[0].definitions[0].definition }]);
-    }, 1000);
+      // Yanıtı işleyin ve mesajlara ekleyin
+      let botMessage;
+      if (result && Array.isArray(result)) {
+        botMessage = result.map((day, index) => 
+          `Gün ${index + 1}:\n` +
+          `Tarih: ${new Date(day.date).toLocaleDateString()}\n` +
+          `Sıcaklık: ${day.temperatureC}°C\n` +
+          `Özet: ${day.summary}\n` +
+          `Simge: ${day.icon}\n` +
+          `Nem: ${day.humidity}%\n` +
+          `Rüzgar Hızı: ${day.windSpeed} km/s\n` +
+          `Uyarı: ${day.alert || 'Yok'}\n` +
+          `Tavsiye: ${day.advice || 'Yok'}\n` +
+          `================================================\n` // Ayrı bir çizgi
+        ).join('\n');
+      } else {
+        botMessage = "Yanıt bulunamadı veya beklenen formatta değil.";
+      }
+      
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: 'user', text: input },
+        { sender: 'bot', text: botMessage },
+      ]);
+    } catch (error) {
+      console.error("Chatbot error:", error.message); // Hata mesajını yazdıralım
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: 'bot', text: "Üzgünüm, verileri alırken bir hata oluştu." },
+      ]);
+    }
 
     setInput('');
   };
@@ -55,7 +65,7 @@ function Chatbot() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Mesajınızı yazın..."
+          placeholder="1 ile 5 arasında bir sayı giriniz..."
         />
         <button type="submit">Gönder</button>
       </form>
