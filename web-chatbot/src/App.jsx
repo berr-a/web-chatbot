@@ -1,18 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Chatbot from './component/chatbot'
+import React, { useState } from 'react';
+import './App.css';
+import Chatbot from './components/chatbot.jsx'; 
+import Login from './components/Login'; 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState('');
+
+  const handleLogin = (username) => {
+    setCurrentUser(username);
+    setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser('');
+    setLoggedIn(false);
+  };
 
   return (
-    <>
-     <Chatbot/>
-       
-    </>
-  )
+    <div className="App">
+      {!loggedIn ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <>
+          <Chatbot user={currentUser} />
+          <button onClick={handleLogout}>Çıkış Yap</button>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

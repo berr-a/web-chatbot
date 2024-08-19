@@ -1,0 +1,114 @@
+/* Çıkış yap butonunu sol alt köşeye taşıma */
+.logout-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+/* Diğer stiller */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  padding: 0 20px; /* Sağdan ve soldan eşit boşluk bırak */
+  box-sizing: border-box;
+}
+
+.login-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px; /* Toplam genişliği sınırlamak için belirli bir maksimum genişlik belirle */
+  background-color: #e0e0e0; /* Gri zemini login-content'e ekle */
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti ekle */
+  border-radius: 8px;
+}
+
+.login-text,
+.login-image {
+  flex: 1; /* Her iki kısmı da eşit yap */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* Her iki kısımda da aynı miktarda padding kullan */
+  background-color: white; /* İçeriklerin arka planını beyaz yap */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  height: 100%; /* Her iki kısmın da yüksekliğini eşitle */
+}
+
+.login-text h2 {
+  margin-bottom: 1rem;
+}
+
+.login-text form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%; /* Giriş kısmının genişliğini maksimuma ayarla */
+  max-width: 400px; /* Formun genişliğini sınırlamak için maksimum genişlik belirle */
+}
+
+.login-text label {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-text input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-text button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #a29bfe;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-text button:hover {
+  background-color: #6c5ce7;
+}
+
+.toggle-mode {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border: none;
+  background-color: #d0d0d0;
+  color: #000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toggle-mode:hover {
+  background-color: #a29bfe;
+}
+
+.login-image img {
+  width: 100%;
+  max-width: 400px; /* Görselin genişliğini form ile aynı yap */
+  height: auto;
+}
+
+.user-list {
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.user-list li {
+  background: #e0e0e0;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
